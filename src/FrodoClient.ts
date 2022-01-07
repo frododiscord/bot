@@ -1,9 +1,7 @@
 import {MessageHandler} from './utils/ErrorHandling/CommandHandler.js';
 import {Client, Collection, CommandInteraction, CommandInteractionOptionResolver} from 'discord.js';
 import {readdirSync} from 'fs';
-import {REST} from '@discordjs/rest';
-import {Routes} from 'discord-api-types/v9';
-import {commandToJson} from './utils/CommandToJson.js';
+import CommandRegister from './utils/CommandRegister.js';
 
 export {MessageHandler as Message, CommandInteractionOptionResolver as Options, CommandInteraction as Interaction};
 
@@ -39,37 +37,25 @@ export class FrodoClient extends Client {
 			}
 		}
 
-		this.registerCommands();
 		this.connectToDiscord();
 	}
 
-	private async registerCommands() {
-		const rest = new REST({version: '9'})
-			.setToken(process.env.TOKEN);
+	private registerCommands() {
+		this.debugLog('Making command register instance');
 
-		const commandList = [];
+		const commandArray = [];
+		this.commands.forEach((command) => {
+			commandArray.push(command.data);
+		});
 
-		for (const command of this.commands.values()) {
-			commandList.push(commandToJson(command.data));
-		};
-
-		await rest.put(
-			Routes.applicationGuildCommands(process.env.CLIENTID, '839919274395303946'),
-			{body: commandList},
-		);
-
-		await rest.put(
-			Routes.applicationCommands(process.env.CLIENTID || '734746193082581084'),
-			{body: []},
-		);
-
-		this.debugLog('All commands registered');
+		new CommandRegister(commandArray, this);
 	}
 
 	private async connectToDiscord() {
 		this.debugLog('Attempting to login...');
 		await this.login(process.env.TOKEN);
 		this.debugLog('Logged into Discord');
+		this.registerCommands();
 		this.registerEvents();
 	}
 
@@ -96,11 +82,15 @@ export class FrodoClient extends Client {
 		this.debugLog(`Started in ${this.timeSinceStart} seconds`);
 	}
 
-	get timeSinceStart() {
+	public get timeSinceStart() {
 		return (Date.now() - this.startTime)/1000;
 	}
 
-	debugLog(message) {
+	public getServerCount(): number {
+		return this.guilds.cache.size;
+	}
+
+	public debugLog(message) {
 		console.log(`[DEBUG][${this.timeSinceStart}] ${message}`);
 	}
 }

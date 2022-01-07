@@ -1,1 +1,1 @@
-export const EMBEDCOLOR = '#3498db';
+export const EMBEDCOLOR: `#${string}` = '#3498db';
