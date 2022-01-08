@@ -19,6 +19,7 @@ export default class CommandRegister {
 	typeMap: any;
 
 	processFinished: boolean;
+	completeEvent: () => void;
 
 	constructor(localCommands: Command[], client: FrodoClient) {
 		this.client = client;
@@ -29,6 +30,7 @@ export default class CommandRegister {
 			USER: 2,
 			MESSAGE: 3,
 		};
+		this.completeEvent = () => {};
 
 		this.start(localCommands);
 	}
@@ -101,6 +103,7 @@ export default class CommandRegister {
 		} else {
 			this.client.debugLog('Commands don\'t need to be updated');
 			this.processFinished = true;
+			this.completeEvent();
 		}
 	}
 
@@ -122,6 +125,7 @@ export default class CommandRegister {
 
 		this.client.debugLog('Commands successfully registered');
 		this.processFinished = true;
+		this.completeEvent();
 	}
 
 	private turnContextCommandsToArray(commands) {
@@ -150,5 +154,9 @@ export default class CommandRegister {
 		});
 
 		return newCommands;
+	}
+
+	public setCompleteEvent(event: () => void) {
+		this.completeEvent = event;
 	}
 }

@@ -1,17 +1,19 @@
 import {CommandBaseOptions} from './../namespaces/CommandBaseOptions.d';
-import {MessageActionRow, MessageButton} from 'discord.js';
+import {ButtonInteraction, MessageActionRow, MessageButton} from 'discord.js';
 import {Button} from './../namespaces/Button.d';
-import {Interaction, Message, Options} from '../FrodoClient';
+import {Interaction, Message, Options, FrodoClient} from '../FrodoClient';
 
 export default class CommandBase {
 	message: Message;
 	options: Options;
 	interaction: Interaction;
+	client: FrodoClient;
 
 	constructor(options: CommandBaseOptions) {
 		this.message = options.message;
 		this.options = options.options;
 		this.interaction = options.interaction;
+		this.client = options.client;
 	}
 
 	public makeButtonRow(...buttons: Button[]): MessageActionRow {
@@ -32,6 +34,14 @@ export default class CommandBase {
 	}
 
 	public finishCommand(): void {
+		this.client.buttonManager.deleteCommand(
+			this.message.guild.id,
+			this.message.channel.id,
+			this.interaction.id,
+		);
+	}
+
+	public onButtonClick(buttonId: string, interaction: ButtonInteraction) {
 
 	}
 }

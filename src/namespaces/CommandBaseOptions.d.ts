@@ -1,7 +1,8 @@
-import {Interaction, Message, Options} from '../FrodoClient';
+import {Interaction, Message, Options, FrodoClient} from '../FrodoClient';
 
 export interface CommandBaseOptions {
 	message: Message;
 	options: Options;
 	interaction: Interaction;
+	client: FrodoClient;
 }

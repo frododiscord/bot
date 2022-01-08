@@ -1,15 +1,18 @@
 import {MessageHandler} from './utils/ErrorHandling/CommandHandler.js';
-import {Client, Collection, CommandInteraction, CommandInteractionOptionResolver} from 'discord.js';
+import {Client, Collection, CommandInteraction, CommandInteractionOptionResolver, ButtonInteraction} from 'discord.js';
 import {readdirSync} from 'fs';
 import CommandRegister from './utils/CommandRegister.js';
+import ButtonManager from './utils/ButtonManager.js';
 import chalk from 'chalk';
+import CommandBase from './utils/CommandBase.js';
 
-export {MessageHandler as Message, CommandInteractionOptionResolver as Options, CommandInteraction as Interaction};
+export {MessageHandler as Message, CommandInteractionOptionResolver as Options, CommandInteraction as Interaction, ButtonInteraction};
 
 export class FrodoClient extends Client {
 	commands: Collection<string, any>;
 	startTime: number;
 	commandRegister: CommandRegister;
+	buttonManager: ButtonManager;
 
 	constructor(args?) {
 		super(args);
@@ -29,14 +32,12 @@ export class FrodoClient extends Client {
 			commands = readdirSync(`./src/commands/${dir}`);
 			for (const file of commands) {
 				command = (await import(`./commands/${dir}/${file}/command.js`)).command;
-				if (command.main) {
-					run = (await import(`./commands/${dir}/${file}/${command.main || 'index.js'}`)).default;
-				}
+				run = (await import(`./commands/${dir}/${file}/${command.main || 'index.js'}`)).default;
 				this.debugLog(` -> Loading command ${file}`);
 				commandData = {
 					data: command,
 				};
-				if (command.main) commandData.run = run.bind(this);
+				commandData.run = run.prototype instanceof CommandBase ? run : run.bind(this);
 				this.commands.set(command.name, commandData);
 			}
 		}
@@ -61,6 +62,7 @@ export class FrodoClient extends Client {
 		this.debugLog('Logged into Discord');
 		this.registerCommands();
 		this.registerEvents();
+		this.createButtonManager();
 	}
 
 	private async registerEvents() {
@@ -83,7 +85,17 @@ export class FrodoClient extends Client {
 
 	private finishDiscordLogin() {
 		this.debugLog('Finished logging into Discord');
-		this.debugLog(`Started in ${this.timeSinceStart / 1000} seconds`);
+		if (this.commandRegister.processFinished) return this.completeFinishLogin();
+		this.commandRegister.setCompleteEvent(this.completeFinishLogin.bind(this));
+	}
+
+	private completeFinishLogin() {
+		this.debugLog(`Started in ${this.timeSinceStart / 1000} second${this.timeSinceStart / 1000 === 1 ? '' : 's'}`);
+	}
+
+	private createButtonManager() {
+		this.debugLog('Creating button manager');
+		this.buttonManager = new ButtonManager(this);
 	}
 
 	public get timeSinceStart() {

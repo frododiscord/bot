@@ -1,6 +1,7 @@
 import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
 import {getMessage} from '../../utils/messageHandler.js';
 import {FrodoClient, Interaction} from '../../FrodoClient';
+import CommandBase from '../../utils/CommandBase.js';
 
 export default async function(this: FrodoClient, interaction: Interaction) {
 	if (!interaction.isCommand()) return;
@@ -23,7 +24,18 @@ export default async function(this: FrodoClient, interaction: Interaction) {
 	const message = await getMessage(interaction);
 
 	try {
-		command.run(message, interaction.options, interaction);
+		if (command.run.prototype instanceof CommandBase) {
+			const CommandClass = command.run;
+			const commandRun = new CommandClass({
+				message,
+				options: interaction.options,
+				interaction,
+				client: this,
+			});
+			this.buttonManager.addCommand(interaction.guild.id, interaction.channel.id, interaction.id, commandRun);
+		} else {
+			command.run(message, interaction.options, interaction);
+		}
 	} catch (err) {
 		handleError(err, interaction);
 	}
