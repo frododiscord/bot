@@ -2,6 +2,7 @@ export interface CommandRegisterData {
     name?: string;
     description?: string;
     options?: CommandOption[];
+	type?: string;
 }
 
 interface CommandOption {

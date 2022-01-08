@@ -1,3 +1,4 @@
+import {ContextMenuCommand} from './../namespaces/ContextMenuCommand.d';
 import {CommandRegisterData} from './../namespaces/CommandRegister.d';
 import {FrodoClient} from './../FrodoClient';
 import {Command} from './../namespaces/Command.d';
@@ -7,20 +8,38 @@ import {commandToJson} from './commandToJson.js';
 
 export default class CommandRegister {
 	client: FrodoClient;
+
 	localCommands: CommandRegisterData[];
 	discordCommands: CommandRegisterData[];
+
+	localContextCommands: ContextMenuCommand[];
+	discordContextCommands: ContextMenuCommand[];
+
 	commandsNeedToUpdate: boolean;
+	typeMap: any;
+
+	processFinished: boolean;
 
 	constructor(localCommands: Command[], client: FrodoClient) {
 		this.client = client;
 		this.discordCommands = [];
 		this.commandsNeedToUpdate = false;
+		this.processFinished = false;
+		this.typeMap = {
+			USER: 2,
+			MESSAGE: 3,
+		};
+
 		this.start(localCommands);
 	}
 
 	private async start(localCommands) {
 		this.localCommands = this.turnCommandsToArray(localCommands);
-		this.discordCommands = this.turnCommandsToArray(await this.getCurrentDiscordCommands());
+		this.localContextCommands = await this.getLocalContextCommands();
+
+		const [discordCommands, discordContextCommands] = await this.getCurrentDiscordCommands();
+		this.discordCommands = this.turnCommandsToArray(discordCommands);
+		this.discordContextCommands = this.turnContextCommandsToArray(discordContextCommands);
 
 		this.compareCommands();
 	}
@@ -58,23 +77,30 @@ export default class CommandRegister {
 
 	private async getCurrentDiscordCommands() {
 		const discordCommands = [];
+		const discordContextCommands = [];
+
 		const discordCommandsResponse = await (process.env.RUNTIME ? this.client.application.commands.fetch() : this.client.guilds.cache.get('839919274395303946').commands.fetch());
 
 		discordCommandsResponse.forEach((command) => {
-			discordCommands.push(command);
+			if (command.type === 'USER' || command.type === 'MESSAGE') {
+				command.type = this.typeMap[command.type];
+				discordContextCommands.push(command);
+			} else discordCommands.push(command);
 		});
 
-		return discordCommands;
+		return [discordCommands, discordContextCommands];
 	}
 
 	private compareCommands() {
 		this.client.debugLog('Comparing Local and Discord commands');
 		const commandsEqual = JSON.stringify(this.localCommands) === JSON.stringify(this.discordCommands);
-		if (!commandsEqual) {
+		const contextCommandsEqual = JSON.stringify(this.localContextCommands) === JSON.stringify(this.discordContextCommands);
+		if (!commandsEqual || !contextCommandsEqual) {
 			this.client.debugLog('Local and Discord commands are different, re-uploading commands');
 			this.registerCommands();
 		} else {
 			this.client.debugLog('Commands don\'t need to be updated');
+			this.processFinished = true;
 		}
 	}
 
@@ -86,11 +112,43 @@ export default class CommandRegister {
 
 		for (const command of this.localCommands) {
 			commandList.push(commandToJson(command));
-		};
+		}
+		for (const command of this.localContextCommands) {
+			commandList.push(command);
+		}
 
 		const route = process.env.RUNTIME ? Routes.applicationCommands(process.env.CLIENTID || '734746193082581084') : Routes.applicationGuildCommands(process.env.CLIENTID, '839919274395303946');
 		await rest.put(route, {body: commandList});
 
 		this.client.debugLog('Commands successfully registered');
+		this.processFinished = true;
+	}
+
+	private turnContextCommandsToArray(commands) {
+		const newCommands: ContextMenuCommand[] = [];
+
+		Object.keys(commands).forEach((commandId) => {
+			const command = commands[commandId];
+			newCommands.push({
+				name: command.name,
+				type: command.type,
+			});
+		});
+
+		newCommands.sort((a, b) => a.name.localeCompare(b.name));
+
+		return newCommands;
+	}
+
+	private async getLocalContextCommands() {
+		const commands = await import('./../contextMenu/contextMenuCommands.js');
+
+		commands.contextMenuCommands.sort((a, b) => a.name.localeCompare(b.name));
+		const newCommands = commands.contextMenuCommands.map((value) => {
+			value.type = this.typeMap[value.type];
+			return value;
+		});
+
+		return newCommands;
 	}
 }

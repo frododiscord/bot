@@ -1,6 +1,6 @@
 import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
 import {getMessage} from '../../utils/messageHandler.js';
-import {FrodoClient, Interaction} from './../../FrodoClient';
+import {FrodoClient, Interaction} from '../../FrodoClient';
 
 export default async function(this: FrodoClient, interaction: Interaction) {
 	if (!interaction.isCommand()) return;

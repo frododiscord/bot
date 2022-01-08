@@ -2,12 +2,14 @@ import {MessageHandler} from './utils/ErrorHandling/CommandHandler.js';
 import {Client, Collection, CommandInteraction, CommandInteractionOptionResolver} from 'discord.js';
 import {readdirSync} from 'fs';
 import CommandRegister from './utils/CommandRegister.js';
+import chalk from 'chalk';
 
 export {MessageHandler as Message, CommandInteractionOptionResolver as Options, CommandInteraction as Interaction};
 
 export class FrodoClient extends Client {
 	commands: Collection<string, any>;
 	startTime: number;
+	commandRegister: CommandRegister;
 
 	constructor(args?) {
 		super(args);
@@ -27,12 +29,14 @@ export class FrodoClient extends Client {
 			commands = readdirSync(`./src/commands/${dir}`);
 			for (const file of commands) {
 				command = (await import(`./commands/${dir}/${file}/command.js`)).command;
-				run = (await import(`./commands/${dir}/${file}/${command.main || 'index.js'}`)).default;
+				if (command.main) {
+					run = (await import(`./commands/${dir}/${file}/${command.main || 'index.js'}`)).default;
+				}
 				this.debugLog(` -> Loading command ${file}`);
 				commandData = {
 					data: command,
-					run: run.bind(this),
 				};
+				if (command.main) commandData.run = run.bind(this);
 				this.commands.set(command.name, commandData);
 			}
 		}
@@ -48,7 +52,7 @@ export class FrodoClient extends Client {
 			commandArray.push(command.data);
 		});
 
-		new CommandRegister(commandArray, this);
+		this.commandRegister = new CommandRegister(commandArray, this);
 	}
 
 	private async connectToDiscord() {
@@ -79,11 +83,11 @@ export class FrodoClient extends Client {
 
 	private finishDiscordLogin() {
 		this.debugLog('Finished logging into Discord');
-		this.debugLog(`Started in ${this.timeSinceStart} seconds`);
+		this.debugLog(`Started in ${this.timeSinceStart / 1000} seconds`);
 	}
 
 	public get timeSinceStart() {
-		return (Date.now() - this.startTime)/1000;
+		return Date.now() - this.startTime;
 	}
 
 	public getServerCount(): number {
@@ -91,6 +95,6 @@ export class FrodoClient extends Client {
 	}
 
 	public debugLog(message) {
-		console.log(`[DEBUG][${this.timeSinceStart}] ${message}`);
+		console.log(`[${chalk.blue('DEBUG')}][${chalk.yellow(this.timeSinceStart)}] ${message}`);
 	}
 }
