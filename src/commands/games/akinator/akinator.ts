@@ -88,16 +88,8 @@ export default class Akinator extends CommandBase {
 		});
 	}
 
-	async onButtonClick(id, interaction: ButtonInteraction) {
+	public async onButtonClick(id) {
 		if (this.finished) return;
-
-		if (interaction.user.id !== this.interaction.user.id) {
-			interaction.reply({
-				content: 'Only one person can play, run `/akinator` for your own game',
-				ephemeral: true,
-			}).catch(() => {});
-			return;
-		}
 
 		if (id > 10) {
 			if (id == 11) {

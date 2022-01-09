@@ -3,5 +3,5 @@ export interface Button {
 	label?: string;
 	style?: 'PRIMARY' | 'SECONDARY' | 'SUCCESS' | 'DANGER' | 'LINK';
 	disabled?: boolean;
-	emoji?: string;
+	emoji?: any;
 }

@@ -22,7 +22,7 @@ export default class ButtonManager {
 	}
 
 	deleteCommand(serverId: string, channelId: string, interactionId: string) {
-		if (!this.commandData[serverId][channelId][interactionId]) return;
+		if (!this.commandData?.[serverId]?.[channelId]?.[interactionId]) return;
 		this.commandData[serverId][channelId][interactionId] = undefined;
 	}
 }

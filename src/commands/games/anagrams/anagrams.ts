@@ -1,6 +1,6 @@
 import {CommandBaseOptions} from './../../../namespaces/CommandBaseOptions.d';
 import CommandBase from '../../../utils/CommandBase.js';
-import {ButtonInteraction, MessageEmbed, MessageEditOptions, Message} from 'discord.js';
+import {MessageEmbed, MessageEditOptions, Message} from 'discord.js';
 import {buttons, vowelsRarity, consonantsRarity} from './emojis.js';
 import wait from '../../../utils/wait.js';
 import getJson from '../../../utils/getJson.js';
@@ -81,7 +81,7 @@ export default class Anagrams extends CommandBase {
 		this.finishCommand();
 	}
 
-	async onButtonClick(buttonId: string, interaction: ButtonInteraction) {
+	public async onButtonClick(buttonId: string) {
 		if (!this.collectingLetters) return;
 
 		const randomLetter = buttonId === '0' ? vowels[Math.floor(Math.random() * vowels.length)] : consonants[Math.floor(Math.random() * consonants.length)];

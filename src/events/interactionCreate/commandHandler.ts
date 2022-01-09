@@ -32,6 +32,7 @@ export default async function(this: FrodoClient, interaction: Interaction) {
 				interaction,
 				client: this,
 			});
+			if (!commandRun.registerCommand) return;
 			this.buttonManager.addCommand(interaction.guild.id, interaction.channel.id, interaction.id, commandRun);
 		} else {
 			command.run(message, interaction.options, interaction);

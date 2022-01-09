@@ -1,3 +1,4 @@
+import {ButtonValidate} from '../../namespaces/ButtonValidate.js';
 import {Interaction, MessageEmbed} from 'discord.js';
 import {FrodoClient} from '../../FrodoClient';
 
@@ -22,7 +23,17 @@ export default async function(this: FrodoClient, interaction: Interaction) {
 			components: [],
 		}).catch(() => {});
 	} else {
-		await interaction.deferUpdate().catch(() => {});
-		await command.onButtonClick(buttonId, interaction);
+		const buttonAction: ButtonValidate = command.validateButtonClick(buttonId, interaction);
+		if (buttonAction !== ButtonValidate.Message) {
+			await interaction.deferUpdate().catch(() => {});
+		}
+		if (buttonAction === ButtonValidate.Run) {
+			await command.onButtonClick(buttonId);
+		} else if (buttonAction === ButtonValidate.Message) {
+			interaction.reply({
+				content: `Only one person can play, run \`/${command.interaction.commandName}\` for your own game`,
+				ephemeral: true,
+			}).catch(() => {});
+		}
 	}
 }
