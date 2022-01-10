@@ -1,10 +1,12 @@
-import {ContextMenuCommand} from './../namespaces/ContextMenuCommand.d';
-import {CommandRegisterData} from './../namespaces/CommandRegister.d';
-import {FrodoClient} from './../FrodoClient';
-import {Command} from './../namespaces/Command.d';
-import {Routes} from 'discord-api-types/v9';
 import {REST} from '@discordjs/rest';
+import {Routes} from 'discord-api-types/v9';
+
+import {ContextMenuCommand} from '../namespaces/ContextMenuCommand.d';
+import {contextMenuCommands} from './../contextMenu/contextMenuCommands.js';
+import {CommandRegisterData} from '../namespaces/CommandRegister.d';
+import {Command} from '../namespaces/Command.d';
 import {commandToJson} from './commandToJson.js';
+import {FrodoClient} from '../FrodoClient';
 
 export default class CommandRegister {
 	client: FrodoClient;
@@ -150,10 +152,8 @@ export default class CommandRegister {
 	}
 
 	private async getLocalContextCommands() {
-		const commands = await import('./../contextMenu/contextMenuCommands.js');
-
-		commands.contextMenuCommands.sort((a, b) => a.name.localeCompare(b.name));
-		const newCommands = commands.contextMenuCommands.map((value) => {
+		contextMenuCommands.sort((a, b) => a.name.localeCompare(b.name));
+		const newCommands = contextMenuCommands.map((value) => {
 			value.type = this.typeMap[value.type];
 			return value;
 		});

@@ -1,12 +1,13 @@
-import {MessageHandler} from './utils/ErrorHandling/CommandHandler.js';
 import {Client, Collection, CommandInteraction, CommandInteractionOptionResolver, ButtonInteraction} from 'discord.js';
-import {readdirSync} from 'fs';
+import chalk from 'chalk';
+
+import {MessageHandler} from './utils/ErrorHandling/CommandHandler.js';
 import CommandRegister from './utils/CommandRegister.js';
 import ButtonManager from './utils/ButtonManager.js';
-import chalk from 'chalk';
 import CommandBase from './utils/CommandBase.js';
 
-export {MessageHandler as Message, CommandInteractionOptionResolver as Options, CommandInteraction as Interaction, ButtonInteraction};
+import * as commands from './commands/commands.js';
+import * as events from './events/events.js';
 
 export class FrodoClient extends Client {
 	commands: Collection<string, any>;
@@ -22,24 +23,12 @@ export class FrodoClient extends Client {
 	}
 
 	private async loadCommands() {
-		const commandFiles = readdirSync('./src/commands');
-		let commands;
-		let command;
-		let run;
-		let commandData;
-		for (const dir of commandFiles) {
-			this.debugLog(`Loading commands from file ${dir}`);
-			commands = readdirSync(`./src/commands/${dir}`);
-			for (const file of commands) {
-				command = (await import(`./commands/${dir}/${file}/command.js`)).command;
-				run = (await import(`./commands/${dir}/${file}/${command.main || 'index.js'}`)).default;
-				this.debugLog(` -> Loading command ${file}`);
-				commandData = {
-					data: command,
-				};
-				commandData.run = run.prototype instanceof CommandBase ? run : run.bind(this);
-				this.commands.set(command.name, commandData);
-			}
+		this.debugLog('Registering commands');
+		for (const command of Object.values(commands)) {
+			this.debugLog(` -> Loading command ${command.name}`);
+			const handler = command.handler.prototype instanceof CommandBase ? command.handler : command.handler.bind(this);
+			const commandData = {data: command, run: handler};
+			this.commands.set(command.name, commandData);
 		}
 
 		this.connectToDiscord();
@@ -67,16 +56,9 @@ export class FrodoClient extends Client {
 
 	private async registerEvents() {
 		this.debugLog('Registering events');
-		const eventFolders = readdirSync('./src/events');
-		let event;
-		for (const eventName of eventFolders) {
-			const eventFiles = readdirSync(`./src/events/${eventName}`);
-			for (const eventFile of eventFiles) {
-				if (!eventFile.endsWith('.js')) continue;
-				event = (await import(`./events/${eventName}/${eventFile}`)).default;
-				this.debugLog(` -> Registering event ${eventName} (${eventFile})`);
-				this.on(eventName, event.bind(this));
-			}
+		for (const event of Object.values(events)) {
+			this.debugLog(` -> Registering event ${event.name} (${event.identifier})`);
+			this.on(event.name, event.handler.bind(this));
 		}
 
 		this.debugLog('Events registered');
@@ -110,3 +92,5 @@ export class FrodoClient extends Client {
 		console.log(`[${chalk.blue('DEBUG')}][${chalk.yellow(this.timeSinceStart)}] ${message}`);
 	}
 }
+
+export {MessageHandler as Message, CommandInteractionOptionResolver as Options, CommandInteraction as Interaction, ButtonInteraction};

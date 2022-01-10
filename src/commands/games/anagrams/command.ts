@@ -1,8 +1,9 @@
 import {Command} from './../../../namespaces/Command.d';
+import anagrams from './anagrams.js';
 
 export const command: Command = {
 	name: 'anagrams',
 	description: 'A round of countdown as seen on TV',
 	version: '1.0.0',
-	main: './anagrams.js',
+	handler: anagrams,
 };

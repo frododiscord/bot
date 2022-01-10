@@ -1,4 +1,5 @@
 import {Command} from './../../../namespaces/Command.d';
+import hangman from './hangman.js';
 
 export const command: Command = {
 	name: 'hangman',
@@ -12,5 +13,5 @@ export const command: Command = {
 		},
 	],
 	version: '1.0.0',
-	main: './hangman.js',
+	handler: hangman,
 };

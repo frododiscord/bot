@@ -1,4 +1,3 @@
-import {NUMBEREMOJIS} from './../../../utils/globalConstants.js';
 import {Button} from '../../../namespaces/Button';
 
 export enum SlotType {
@@ -26,53 +25,37 @@ export const playerTextClear = {
 export const buttonsRowOne: Button[] = [
 	{
 		id: '0',
-		emoji: {
-			id: NUMBEREMOJIS[0].id,
-		},
+		label: '1',
 	},
 	{
 		id: '1',
-		emoji: {
-			id: NUMBEREMOJIS[1].id,
-		},
+		label: '2',
 	},
 	{
 		id: '2',
-		emoji: {
-			id: NUMBEREMOJIS[2].id,
-		},
+		label: '3',
 	},
 	{
 		id: '3',
-		emoji: {
-			id: NUMBEREMOJIS[3].id,
-		},
+		label: '4',
 	},
 ];
 
 export const buttonsRowTwo: Button[] = [
 	{
 		id: '4',
-		emoji: {
-			id: NUMBEREMOJIS[4].id,
-		},
+		label: '5',
 	},
 	{
 		id: '5',
-		emoji: {
-			id: NUMBEREMOJIS[5].id,
-		},
+		label: '6',
 	},
 	{
 		id: '6',
-		emoji: {
-			id: NUMBEREMOJIS[6].id,
-		},
+		label: '7',
 	},
 	{
 		id: '7',
-		emoji: {
-			id: NUMBEREMOJIS[7].id,
-		},
+		label: '8',
 	},
 ];

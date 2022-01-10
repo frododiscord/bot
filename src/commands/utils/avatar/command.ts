@@ -1,4 +1,5 @@
 import {Command} from './../../../namespaces/Command.d';
+import avatar from './avatar.js';
 
 export const command: Command = {
 	name: 'avatar',
@@ -12,5 +13,5 @@ export const command: Command = {
 		},
 	],
 	version: '1.0.0',
-	main: './avatar.js',
+	handler: avatar,
 };

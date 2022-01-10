@@ -2,16 +2,21 @@ import {ContextMenuCommand} from '../namespaces/ContextMenuCommand';
 
 export const contextMenuCommands: ContextMenuCommand[] = [
 	{
-		name: 'Send an insult!',
+		name: 'Challenge to C4',
 		type: 'USER',
 	},
 	{
-		name: 'Play tic tac toe',
+		name: 'Insult them',
+		type: 'USER',
+	},
+	{
+		name: 'Challenge to TTT',
 		type: 'USER',
 	},
 ];
 
 export const contextMenuCommandsMap = {
-	'Send an insult!': 'insult',
-	'Play tic tac toe': 'ttt',
+	'Insult them': 'insult',
+	'Challenge to C4': 'connectfour',
+	'Challenge to TTT': 'ttt',
 };

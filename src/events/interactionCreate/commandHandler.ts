@@ -2,8 +2,16 @@ import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
 import {getMessage} from '../../utils/messageHandler.js';
 import {FrodoClient, Interaction} from '../../FrodoClient';
 import CommandBase from '../../utils/CommandBase.js';
+import {Event} from '../../namespaces/Event.js';
 
-export default async function(this: FrodoClient, interaction: Interaction) {
+export const event : Event = {
+	name: 'interactionCreate',
+	identifier: 'commandHandler',
+	handler: commandHandler,
+};
+
+
+async function commandHandler(this: FrodoClient, interaction: Interaction) {
 	if (!interaction.isCommand()) return;
 
 	if (!interaction.guild) {

@@ -1,9 +1,18 @@
-import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
-import {getMessage} from '../../utils/messageHandler.js';
-import {FrodoClient, Interaction} from '../../FrodoClient';
+import CommandBase from '../../utils/CommandBase.js';
 import {contextMenuCommandsMap} from '../../contextMenu/contextMenuCommands.js';
+import {Event} from '../../namespaces/Event.js';
+import {FrodoClient, Interaction} from '../../FrodoClient';
+import {getMessage} from '../../utils/messageHandler.js';
+import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
 
-export default async function(this: FrodoClient, interaction: Interaction) {
+export const event : Event = {
+	name: 'interactionCreate',
+	identifier: 'contextHandler',
+	handler: contextHandler,
+};
+
+
+async function contextHandler(this: FrodoClient, interaction: Interaction) {
 	if (!interaction.isContextMenu()) return;
 
 	if (!interaction.guild) {
@@ -27,7 +36,19 @@ export default async function(this: FrodoClient, interaction: Interaction) {
 	const message = await getMessage(interaction);
 
 	try {
-		command.run(message, interaction.options, interaction);
+		if (command.run.prototype instanceof CommandBase) {
+			const CommandClass = command.run;
+			const commandRun = new CommandClass({
+				message,
+				options: interaction.options,
+				interaction,
+				client: this,
+			});
+			if (!commandRun.registerCommand) return;
+			this.buttonManager.addCommand(interaction.guild.id, interaction.channel.id, interaction.id, commandRun);
+		} else {
+			command.run(message, interaction.options, interaction);
+		}
 	} catch (err) {
 		handleError(err, interaction);
 	}

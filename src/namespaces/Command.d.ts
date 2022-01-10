@@ -1,9 +1,11 @@
+export type Handler = CommandBase | Function;
+
 export interface Command {
     name: string;
     description: string;
     options?: CommandOption[];
     version: string;
-    main?: string;
+    handler?: Handler;
 	active?: boolean;
 }
 

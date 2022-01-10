@@ -1,8 +1,15 @@
 import {ButtonValidate} from '../../namespaces/ButtonValidate.js';
 import {Interaction, MessageEmbed} from 'discord.js';
 import {FrodoClient} from '../../FrodoClient';
+import {Event} from '../../namespaces/Event.js';
 
-export default async function(this: FrodoClient, interaction: Interaction) {
+export const event : Event = {
+	name: 'interactionCreate',
+	identifier: 'buttonHandler',
+	handler: buttonHandler,
+};
+
+async function buttonHandler(this: FrodoClient, interaction: Interaction) {
 	if (!interaction.isButton()) return;
 
 	const [interactionId, buttonId] = interaction.customId.split(':');

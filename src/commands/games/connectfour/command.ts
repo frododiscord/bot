@@ -1,4 +1,5 @@
 import {Command} from './../../../namespaces/Command.d';
+import connectFour from './connectfour.js';
 
 export const command: Command = {
 	name: 'connectfour',
@@ -12,5 +13,5 @@ export const command: Command = {
 		},
 	],
 	version: '1.0.0',
-	main: './connectfour.js',
+	handler: connectFour,
 };
