@@ -1,11 +1,8 @@
 import {FrodoClient, Message} from '../../../FrodoClient';
-import fetch from 'node-fetch';
+import getJson from '../../../utils/getJson.js';
 
 export default async function(this: FrodoClient, message: Message) {
-	fetch('https://fortuneapi.herokuapp.com/')
-		.then((res) => res.json())
-		.then(async (text) => message.edit(text))
-		.catch(() => {
-			message.edit('We could not find you a fortune :confused:');
-		});
+	await getJson('https://fortuneapi.herokuapp.com/')
+		.then((fortune) => message.edit(fortune))
+		.catch(() => message.edit('We could not find you a fortune :confused:'));
 }

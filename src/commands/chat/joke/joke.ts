@@ -1,18 +1,15 @@
 import {Joke} from './Joke.d';
-import fetch from 'node-fetch';
+import getJson from '../../../utils/getJson.js';
 import {FrodoClient, Message} from '../../../FrodoClient';
 
 export default async function(this: FrodoClient, message: Message) {
-	fetch('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
-		.then((res) => res.json())
-		.then((json: Joke) => {
-			if (json.setup) {
-				message.edit(`${json.setup}\n${json.delivery}`);
-			} else if (json.joke) {
-				message.edit(`${json.joke}`);
+	await getJson('https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit')
+		.then((joke: Joke) => {
+			if (joke.setup) {
+				message.edit(`${joke.setup}\n${joke.delivery}`);
+			} else if (joke.joke) {
+				message.edit(`${joke.joke}`);
 			}
 		})
-		.catch(() => {
-			message.edit('We could not find you an insult :confused:');
-		});
+		.catch(() => message.edit('We could not find you a joke :confused:'));
 }
