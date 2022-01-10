@@ -94,6 +94,11 @@ export default class CommandRegister {
 	}
 
 	private compareCommands() {
+		if (process.argv.includes('--update-commands')) {
+			this.client.debugLog('--update-commands flag detected, updating commands');
+			return this.registerCommands();
+		}
+
 		this.client.debugLog('Comparing Local and Discord commands');
 		const commandsEqual = JSON.stringify(this.localCommands) === JSON.stringify(this.discordCommands);
 		const contextCommandsEqual = JSON.stringify(this.localContextCommands) === JSON.stringify(this.discordContextCommands);

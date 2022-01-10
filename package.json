@@ -4,7 +4,10 @@
   "description": "",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+	"start-rc": "node ./src/index.js --update-commands",
+	"build": "npm i && tsc",
+	"build-w": "tsc -w"
   },
   "keywords": [],
   "author": "",
