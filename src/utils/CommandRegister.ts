@@ -127,7 +127,7 @@ export default class CommandRegister {
 			commandList.push(command);
 		}
 
-		const route = process.env.RUNTIME ? Routes.applicationCommands(process.env.CLIENTID || '734746193082581084') : Routes.applicationGuildCommands(process.env.CLIENTID, '839919274395303946');
+		const route = process.env.RUNTIME ? Routes.applicationCommands(this.client.user.id) : Routes.applicationGuildCommands(this.client.user.id, '839919274395303946');
 		await rest.put(route, {body: commandList});
 
 		this.client.debugLog('Commands successfully registered');

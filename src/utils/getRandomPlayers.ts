@@ -3,7 +3,7 @@ import {RandomPlayersError} from './../namespaces/RandomPlayersError.js';
 import {Interaction} from '../FrodoClient';
 
 
-export function getRandomPlayers(interaction: Interaction): RandomPlayers | RandomPlayersError {
+export function getRandomPlayers(interaction: Interaction, randomList: boolean): RandomPlayers | RandomPlayersError {
 	const num = Math.round(Math.random());
 	const randomPlayers = [];
 	const playerOne = interaction.user;
@@ -13,7 +13,7 @@ export function getRandomPlayers(interaction: Interaction): RandomPlayers | Rand
 	if (playerOne.id === playerTwo.id) return RandomPlayersError.SamePlayer;
 	if (playerOne.bot || playerTwo.bot) return RandomPlayersError.BotPlayer;
 
-	if (num === 0) {
+	if (num === 0 || !randomList) {
 		randomPlayers.push(playerOne);
 		randomPlayers.push(playerTwo);
 	} else {

@@ -48,8 +48,8 @@ export default class CommandBase {
 		);
 	}
 
-	public getRandomPlayers(): RandomPlayers {
-		const playerList = getRandomPlayers(this.interaction);
+	public getRandomPlayers(randomList: boolean = true): RandomPlayers {
+		const playerList = getRandomPlayers(this.interaction, randomList);
 		if (typeof playerList !== 'object') {
 			if (playerList === RandomPlayersError.PlayerNotFound) {
 				this.message.edit('One of the players could not be found');
