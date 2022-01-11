@@ -1,7 +1,7 @@
-import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
-import {getMessage} from '../../utils/MessageHandler.js';
-import {FrodoClient, Interaction} from '../../FrodoClient';
-import CommandBase from '../../utils/CommandBase.js';
+import {handleError} from '../../core/ErrorHandling/ErrorHandler.js';
+import {getMessage} from '../../core/MessageHandler.js';
+import {FrodoClient, Interaction} from '../../core/FrodoClient';
+import CommandBase from '../../core/CommandBase.js';
 import {Event} from '../../core/Event.js';
 
 export const event : Event = {

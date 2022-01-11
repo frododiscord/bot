@@ -2,11 +2,11 @@ import {REST} from '@discordjs/rest';
 import {Routes} from 'discord-api-types/v9';
 
 import {ContextMenuCommand} from '../core/ContextMenuCommand';
-import {contextMenuCommands} from './../contextMenu/contextMenuCommands.js';
-import {CommandRegisterData} from '../core/CommandRegister';
+import {contextMenuCommands} from '../contextMenu.js';
+import {CommandRegisterData} from '../core/CommandRegister.d';
 import {Command} from '../core/Command';
 import {commandToJson} from './CommandToJson.js';
-import {FrodoClient} from '../FrodoClient';
+import {FrodoClient} from './FrodoClient.js';
 
 export default class CommandRegister {
 	client: FrodoClient;
@@ -77,17 +77,17 @@ export default class CommandRegister {
 		const discordCommands = [];
 		const discordContextCommands = [];
 		const discordCommandsResponse = await (process.env.RUNTIME ?
-            this.client.application.commands.fetch() :
-            this.client.guilds.cache.get('839919274395303946').commands.fetch()
-        );
+			this.client.application.commands.fetch() :
+			this.client.guilds.cache.get('839919274395303946').commands.fetch()
+		);
 
 		discordCommandsResponse.forEach((command) => {
 			if (command.type === 'USER' || command.type === 'MESSAGE') {
 				command.type = this.typeMap[command.type];
 				discordContextCommands.push(command);
 			} else {
-                discordCommands.push(command);
-            }
+				discordCommands.push(command);
+			}
 		});
 
 		return [discordCommands, discordContextCommands];

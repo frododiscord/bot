@@ -1,5 +1,5 @@
-import {FrodoClient, Message} from '../../../FrodoClient';
-import getJson from '../../../utils/GetJson.js';
+import {FrodoClient, Message} from '../../../core/FrodoClient';
+import getJson from '../../../core/GetJson.js';
 
 export default async function(this: FrodoClient, message: Message) {
 	await getJson('https://fortuneapi.herokuapp.com/')

@@ -1,6 +1,6 @@
 import {RandomPlayers} from '../core/RandomPlayers';
 import {RandomPlayersError} from '../core/RandomPlayersError.js';
-import {Interaction} from '../FrodoClient';
+import {Interaction} from './FrodoClient';
 
 
 export function getRandomPlayers(interaction: Interaction, randomList: boolean): RandomPlayers | RandomPlayersError {

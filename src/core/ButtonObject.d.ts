@@ -1,4 +1,4 @@
-import CommandBase from '../utils/CommandBase';
+import CommandBase from '../core/CommandBase';
 
 export interface ButtonObject {
 	[id: string]: ServerButtonObject;

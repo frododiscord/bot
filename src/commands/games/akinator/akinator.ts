@@ -1,7 +1,7 @@
-import {EMBEDCOLOR} from '../../../utils/GlobalConstants.js';
+import {EMBEDCOLOR} from '../../../core/GlobalConstants.js';
 import {region, buttons, backButton, winButtons} from './emojis.js';
 import {CommandBaseOptions} from '../../../core/CommandBaseOptions';
-import CommandBase from '../../../utils/CommandBase.js';
+import CommandBase from '../../../core/CommandBase.js';
 import {Aki} from 'aki-api';
 import {MessageEmbed, ButtonInteraction} from 'discord.js';
 import {guess} from 'aki-api/typings/src/functions';
