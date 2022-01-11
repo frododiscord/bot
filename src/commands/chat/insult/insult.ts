@@ -1,6 +1,6 @@
 import {Insult} from './Insult.d';
-import getJson from '../../../utils/GetJson.js';
-import {FrodoClient, Message, Options} from '../../../FrodoClient';
+import getJson from '../../../core/GetJson.js';
+import {FrodoClient, Message, Options} from '../../../core/FrodoClient';
 
 export default async function(this: FrodoClient, message: Message, options: Options) {
 	let text = '';

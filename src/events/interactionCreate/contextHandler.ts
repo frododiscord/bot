@@ -1,9 +1,9 @@
-import CommandBase from '../../utils/CommandBase.js';
-import {contextMenuCommandsMap} from '../../contextMenu/contextMenuCommands.js';
+import CommandBase from '../../core/CommandBase.js';
+import {contextMenuCommandsMap} from '../../contextMenu.js';
 import {Event} from '../../core/Event.js';
-import {FrodoClient, Interaction} from '../../FrodoClient';
-import {getMessage} from '../../utils/MessageHandler.js';
-import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
+import {FrodoClient, Interaction} from '../../core/FrodoClient';
+import {getMessage} from '../../core/MessageHandler.js';
+import {handleError} from '../../core/ErrorHandling/ErrorHandler.js';
 
 export const event : Event = {
 	name: 'interactionCreate',

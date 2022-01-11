@@ -1,6 +1,6 @@
 import {ButtonValidate} from '../../core/ButtonValidate.js';
 import {Interaction, MessageEmbed} from 'discord.js';
-import {FrodoClient} from '../../FrodoClient';
+import {FrodoClient} from '../../core/FrodoClient.js';
 import {Event} from '../../core/Event.js';
 
 export const event : Event = {
@@ -30,7 +30,7 @@ async function buttonHandler(this: FrodoClient, interaction: Interaction) {
 			components: [],
 		}).catch(() => {});
 	} else {
-		const buttonAction: ButtonValidate = command.validateButtonClick(interaction);
+		const buttonAction: ButtonValidate = command.validateButtonClick(buttonId, interaction);
 		if (buttonAction !== ButtonValidate.Message) {
 			await interaction.deferUpdate().catch(() => {});
 		}

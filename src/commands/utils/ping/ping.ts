@@ -1,5 +1,5 @@
-import {MessageHandler} from './../../../utils/ErrorHandling/CommandHandler';
-import {FrodoClient, Interaction, Options} from '../../../FrodoClient';
+import {MessageHandler} from '../../../core/ErrorHandling/CommandHandler';
+import {FrodoClient, Interaction, Options} from '../../../core/FrodoClient';
 
 export default function(this: FrodoClient, message: MessageHandler, options: Options, interaction: Interaction) {
 	const content = [

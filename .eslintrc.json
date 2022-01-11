@@ -19,7 +19,7 @@
         "no-tabs": "off",
         "no-mixed-spaces-and-tabs": "off",
         "max-len": "off",
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": "off",
         "require-jsdoc": "off",
         "no-unused-vars": "warn",
 		"no-invalid-this": "off"

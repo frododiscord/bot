@@ -1,10 +1,11 @@
 import dotenv from 'dotenv';
 
 import {Intents} from 'discord.js';
-import {FrodoClient} from './FrodoClient.js';
+import {FrodoClient} from './core/FrodoClient.js';
 
 dotenv.config();
 
+// eslint-disable-next-line no-unused-vars
 const client = new FrodoClient({
 	intents: [
 		Intents.FLAGS.GUILDS,

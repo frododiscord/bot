@@ -1,13 +1,13 @@
 import chalk from 'chalk';
 import {Client, Collection, CommandInteraction, CommandInteractionOptionResolver, ButtonInteraction} from 'discord.js';
 
-import {MessageHandler} from './utils/ErrorHandling/CommandHandler.js';
-import CommandRegister from './utils/CommandRegister.js';
-import ButtonManager from './utils/ButtonManager.js';
-import CommandBase from './utils/CommandBase.js';
+import {MessageHandler} from './ErrorHandling/CommandHandler.js';
+import CommandRegister from './CommandRegister.js';
+import ButtonManager from './ButtonManager.js';
+import CommandBase from './CommandBase.js';
 
-import * as commands from './commands/commands.js';
-import * as events from './events/events.js';
+import * as commands from '../commands/commands.js';
+import * as events from '../events/events.js';
 
 export class FrodoClient extends Client {
 	commands: Collection<string, any>;
@@ -34,7 +34,7 @@ export class FrodoClient extends Client {
 		this.connectToDiscord();
 	}
 
-	private registerCommands() : FrodoClient {
+	private createCommandRegister() : FrodoClient {
 		this.debugLog('Making command register instance');
 		const commandArray = [];
 		this.commands.forEach((command) => {
@@ -42,16 +42,15 @@ export class FrodoClient extends Client {
 		});
 
 		this.commandRegister = new CommandRegister(commandArray, this);
-        return this;
+		return this;
 	}
 
 	private async connectToDiscord() {
 		this.debugLog('Attempting to login to discord...');
 		await this.login(process.env.TOKEN);
 		this.debugLog('Logged into Discord');
-		await this.registerCommands().registerEvents();
-        // Create button manager
-        this.debugLog('Creating button manager');
+		await this.createCommandRegister().registerEvents();
+		this.debugLog('Creating button manager');
 		this.buttonManager = new ButtonManager(this);
 	}
 
@@ -64,15 +63,15 @@ export class FrodoClient extends Client {
 
 		this.debugLog('Events registered');
 		this.finishDiscordLogin();
-        return this;
+		return this;
 	}
 
 	private finishDiscordLogin() {
 		this.debugLog('Finished logging into Discord');
 		if (this.commandRegister.processFinished) {
-            this.completeFinishLogin();
-            return;
-        }
+			this.completeFinishLogin();
+			return;
+		}
 		this.commandRegister.setCompleteEvent(this.completeFinishLogin.bind(this));
 	}
 

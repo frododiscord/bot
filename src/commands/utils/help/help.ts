@@ -1,6 +1,6 @@
-import {EMBEDCOLOR} from '../../../utils/GlobalConstants.js';
+import {EMBEDCOLOR} from '../../../core/GlobalConstants.js';
 import {MessageEmbed} from 'discord.js';
-import {FrodoClient, Message} from '../../../FrodoClient.js';
+import {FrodoClient, Message} from '../../../core/FrodoClient.js';
 
 export default function(this: FrodoClient, message: Message) {
 	const helpEmbed = new MessageEmbed()

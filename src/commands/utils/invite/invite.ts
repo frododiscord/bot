@@ -1,5 +1,5 @@
 import {MessageActionRow, MessageButton} from 'discord.js';
-import {FrodoClient, Message} from '../../../FrodoClient';
+import {FrodoClient, Message} from '../../../core/FrodoClient.js';
 
 export default function(this: FrodoClient, message: Message) {
 	const row = new MessageActionRow()

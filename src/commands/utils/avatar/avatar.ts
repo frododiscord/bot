@@ -1,6 +1,6 @@
-import {EMBEDCOLOR} from '../../../utils/GlobalConstants.js';
+import {EMBEDCOLOR} from '../../../core/GlobalConstants.js';
 import {MessageEmbed, User} from 'discord.js';
-import {FrodoClient, Interaction, Message, Options} from '../../../FrodoClient.js';
+import {FrodoClient, Interaction, Message, Options} from '../../../core/FrodoClient.js';
 
 export default function(this: FrodoClient, message: Message, options: Options, interaction: Interaction) {
 	const user: User = options.getUser('user') || interaction.user;

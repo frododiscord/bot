@@ -1,5 +1,5 @@
 import {ButtonObject} from '../core/ButtonObject';
-import {FrodoClient} from './../FrodoClient.js';
+import {FrodoClient} from './FrodoClient';
 import CommandBase from './CommandBase.js';
 
 export default class ButtonManager {
