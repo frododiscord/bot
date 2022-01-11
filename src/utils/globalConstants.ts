@@ -1,4 +1,4 @@
-import {Emoji} from '../namespaces/Emoji';
+import {Emoji} from '../core/Emoji';
 
 export const EMBEDCOLOR: `#${string}` = '#3498db';
 export const NUMBEREMOJIS: Emoji[] = [

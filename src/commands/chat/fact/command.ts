@@ -1,4 +1,4 @@
-import {Command} from './../../../namespaces/Command.d';
+import {Command} from '../../../core/Command';
 import fact from './fact.js';
 
 export const command: Command = {

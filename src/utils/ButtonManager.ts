@@ -1,4 +1,4 @@
-import {ButtonObject} from './../namespaces/ButtonObject.d';
+import {ButtonObject} from '../core/ButtonObject';
 import {FrodoClient} from './../FrodoClient.js';
 import CommandBase from './CommandBase.js';
 

@@ -1,4 +1,4 @@
-import {Button} from '../../../namespaces/Button';
+import {Button} from '../../../core/Button';
 
 export enum SlotType {
 	Empty,

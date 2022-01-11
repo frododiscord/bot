@@ -1,4 +1,4 @@
-import {Button} from './../../../namespaces/Button.d';
+import {Button} from '../../../core/Button';
 
 export const buttons: Button[] = [
 	{

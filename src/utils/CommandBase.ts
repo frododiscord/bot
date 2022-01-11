@@ -1,9 +1,9 @@
-import {RandomPlayers} from './../namespaces/RandomPlayers.d.js';
-import {RandomPlayersError} from './../namespaces/RandomPlayersError.js';
-import {ButtonValidate} from '../namespaces/ButtonValidate.js';
-import {CommandBaseOptions} from './../namespaces/CommandBaseOptions.d';
+import {RandomPlayers} from '../core/RandomPlayers.js';
+import {RandomPlayersError} from '../core/RandomPlayersError.js';
+import {ButtonValidate} from '../core/ButtonValidate.js';
+import {CommandBaseOptions} from '../core/CommandBaseOptions';
 import {ButtonInteraction, MessageActionRow, MessageButton} from 'discord.js';
-import {Button} from './../namespaces/Button.d';
+import {Button} from '../core/Button';
 import {Interaction, Message, Options, FrodoClient} from '../FrodoClient';
 import {getRandomPlayers} from './getRandomPlayers.js';
 

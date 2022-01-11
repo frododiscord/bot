@@ -1,4 +1,4 @@
-import {CommandBaseOptions} from './../../../namespaces/CommandBaseOptions.d';
+import {CommandBaseOptions} from '../../../core/CommandBaseOptions';
 import CommandBase from '../../../utils/CommandBase.js';
 import {MessageEmbed, MessageEditOptions, Message} from 'discord.js';
 import {buttons, vowelsRarity, consonantsRarity} from './emojis.js';

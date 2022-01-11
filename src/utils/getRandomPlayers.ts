@@ -1,5 +1,5 @@
-import {RandomPlayers} from './../namespaces/RandomPlayers.d';
-import {RandomPlayersError} from './../namespaces/RandomPlayersError.js';
+import {RandomPlayers} from '../core/RandomPlayers';
+import {RandomPlayersError} from '../core/RandomPlayersError.js';
 import {Interaction} from '../FrodoClient';
 
 

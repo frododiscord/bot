@@ -1,10 +1,10 @@
 import {REST} from '@discordjs/rest';
 import {Routes} from 'discord-api-types/v9';
 
-import {ContextMenuCommand} from '../namespaces/ContextMenuCommand.d';
+import {ContextMenuCommand} from '../core/ContextMenuCommand';
 import {contextMenuCommands} from './../contextMenu/contextMenuCommands.js';
-import {CommandRegisterData} from '../namespaces/CommandRegister.d';
-import {Command} from '../namespaces/Command.d';
+import {CommandRegisterData} from '../core/CommandRegister';
+import {Command} from '../core/Command';
 import {commandToJson} from './commandToJson.js';
 import {FrodoClient} from '../FrodoClient';
 

@@ -1,6 +1,6 @@
 import {EMBEDCOLOR} from './../../../utils/globalConstants.js';
 import {MessageEmbed, User} from 'discord.js';
-import {CommandBaseOptions} from '../../../namespaces/CommandBaseOptions.js';
+import {CommandBaseOptions} from '../../../core/CommandBaseOptions.js';
 import CommandBase from '../../../utils/CommandBase.js';
 
 export default class Hangman extends CommandBase {

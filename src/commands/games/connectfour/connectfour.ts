@@ -1,6 +1,6 @@
-import {ButtonValidate} from '../../../namespaces/ButtonValidate.js';
+import {ButtonValidate} from '../../../core/ButtonValidate.js';
 import {EMBEDCOLOR} from './../../../utils/globalConstants.js';
-import {CommandBaseOptions} from './../../../namespaces/CommandBaseOptions.d';
+import {CommandBaseOptions} from '../../../core/CommandBaseOptions';
 import CommandBase from '../../../utils/CommandBase.js';
 import {ButtonInteraction, MessageEmbed, User} from 'discord.js';
 import {buttonsRowOne, buttonsRowTwo, gridDimensions, playerTextClear, slotText, SlotType} from './emojis.js';

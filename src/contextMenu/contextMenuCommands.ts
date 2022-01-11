@@ -1,4 +1,4 @@
-import {ContextMenuCommand} from '../namespaces/ContextMenuCommand';
+import {ContextMenuCommand} from '../core/ContextMenuCommand';
 
 export const contextMenuCommands: ContextMenuCommand[] = [
 	{

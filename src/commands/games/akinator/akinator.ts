@@ -1,6 +1,6 @@
 import {EMBEDCOLOR} from './../../../utils/globalConstants.js';
 import {region, buttons, backButton, winButtons} from './emojis.js';
-import {CommandBaseOptions} from './../../../namespaces/CommandBaseOptions.d';
+import {CommandBaseOptions} from '../../../core/CommandBaseOptions';
 import CommandBase from '../../../utils/CommandBase.js';
 import {Aki} from 'aki-api';
 import {MessageEmbed, ButtonInteraction} from 'discord.js';

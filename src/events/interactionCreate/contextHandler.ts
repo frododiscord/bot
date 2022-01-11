@@ -1,6 +1,6 @@
 import CommandBase from '../../utils/CommandBase.js';
 import {contextMenuCommandsMap} from '../../contextMenu/contextMenuCommands.js';
-import {Event} from '../../namespaces/Event.js';
+import {Event} from '../../core/Event.js';
 import {FrodoClient, Interaction} from '../../FrodoClient';
 import {getMessage} from '../../utils/messageHandler.js';
 import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';

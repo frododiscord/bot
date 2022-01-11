@@ -2,7 +2,7 @@ import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
 import {getMessage} from '../../utils/messageHandler.js';
 import {FrodoClient, Interaction} from '../../FrodoClient';
 import CommandBase from '../../utils/CommandBase.js';
-import {Event} from '../../namespaces/Event.js';
+import {Event} from '../../core/Event.js';
 
 export const event : Event = {
 	name: 'interactionCreate',

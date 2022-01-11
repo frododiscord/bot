@@ -90,3 +90,6 @@ else
     echo "Invalid command type"
     exit
 fi
+
+echo "export {command as $name} from './$category/$name/command.js';" >> "../src/commands/commands.ts";
+echo "Command successfully registered"

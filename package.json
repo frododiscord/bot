@@ -5,9 +5,9 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "node ./src/index.js",
-	"start-rc": "node ./src/index.js --update-commands",
-	"build": "npm i && tsc",
-	"build-w": "tsc -w"
+    "start-rc": "node ./src/index.js --update-commands",
+    "build": "npm i && tsc",
+    "build-w": "tsc -w"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +29,7 @@
     "moment-duration-format": "^2.3.2",
     "node-fetch": "^3.1.0",
     "topgg-autoposter": "^2.0.0",
+    "typescript": "^4.5.4",
     "ws": "^8.2.2"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import {Command} from './../../../namespaces/Command.d';
+import {Command} from '../../../core/Command';
 import hangman from './hangman.js';
 
 export const command: Command = {

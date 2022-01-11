@@ -1,7 +1,7 @@
-import {ButtonValidate} from '../../namespaces/ButtonValidate.js';
+import {ButtonValidate} from '../../core/ButtonValidate.js';
 import {Interaction, MessageEmbed} from 'discord.js';
 import {FrodoClient} from '../../FrodoClient';
-import {Event} from '../../namespaces/Event.js';
+import {Event} from '../../core/Event.js';
 
 export const event : Event = {
 	name: 'interactionCreate',
