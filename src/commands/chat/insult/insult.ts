@@ -1,5 +1,5 @@
 import {Insult} from './Insult.d';
-import getJson from '../../../utils/getJson.js';
+import getJson from '../../../utils/GetJson.js';
 import {FrodoClient, Message, Options} from '../../../FrodoClient';
 
 export default async function(this: FrodoClient, message: Message, options: Options) {

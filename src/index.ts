@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
-dotenv.config();
 
 import {Intents} from 'discord.js';
 import {FrodoClient} from './FrodoClient.js';
+
+dotenv.config();
 
 const client = new FrodoClient({
 	intents: [

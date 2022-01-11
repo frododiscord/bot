@@ -16,7 +16,6 @@ export function commandToJson(json) {
 			option.setName(optionData.name);
 			option.setDescription(optionData.description);
 			option.setRequired(optionData.required);
-
 			optionData.choices?.forEach((choice) => {
 				option.addChoice(choice.name, choice.description);
 			});

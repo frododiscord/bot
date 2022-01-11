@@ -1,4 +1,4 @@
-import {EMBEDCOLOR} from './../../../utils/globalConstants.js';
+import {EMBEDCOLOR} from '../../../utils/GlobalConstants.js';
 import {region, buttons, backButton, winButtons} from './emojis.js';
 import {CommandBaseOptions} from '../../../core/CommandBaseOptions';
 import CommandBase from '../../../utils/CommandBase.js';

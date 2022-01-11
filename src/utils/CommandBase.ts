@@ -5,7 +5,7 @@ import {CommandBaseOptions} from '../core/CommandBaseOptions';
 import {ButtonInteraction, MessageActionRow, MessageButton} from 'discord.js';
 import {Button} from '../core/Button';
 import {Interaction, Message, Options, FrodoClient} from '../FrodoClient';
-import {getRandomPlayers} from './getRandomPlayers.js';
+import {getRandomPlayers} from './GetRandomPlayers.js';
 
 export default class CommandBase {
 	message: Message;
@@ -48,27 +48,31 @@ export default class CommandBase {
 		);
 	}
 
-	public getRandomPlayers(randomList: boolean = true): RandomPlayers {
+	public getRandomPlayers(randomList: boolean = true): RandomPlayers | undefined {
 		const playerList = getRandomPlayers(this.interaction, randomList);
-		if (typeof playerList !== 'object') {
-			if (playerList === RandomPlayersError.PlayerNotFound) {
-				this.message.edit('One of the players could not be found');
-			} else if (playerList === RandomPlayersError.SamePlayer) {
-				this.message.edit('You cannot play against yourself');
-			} else if (playerList === RandomPlayersError.BotPlayer) {
-				this.message.edit('You cannot play against a bot');
-			}
+		if (playerList instanceof Object) {
+            return playerList;
+        } else {
+            switch (playerList) {
+                case RandomPlayersError.PlayerNotFound:
+                    this.message.edit('One of the players could not be found');
+                    break;
+                case RandomPlayersError.SamePlayer:
+                    this.message.edit('You cannot play against yourself');
+                    break;
+                case RandomPlayersError.BotPlayer:
+                    this.message.edit('You cannot play against a bot');
+                    break;
+            }
 			this.finishCommand();
-			return null;
 		}
-		return playerList;
 	}
 
 	public onButtonClick(buttonId: string) {
-
+        throw new Error('Method not implimented');
 	}
 
-	public validateButtonClick(buttonId: string, interaction: ButtonInteraction): ButtonValidate {
+	public validateButtonClick(interaction: ButtonInteraction): ButtonValidate {
 		if (interaction.user.id === this.interaction.user.id) return ButtonValidate.Run;
 		return ButtonValidate.Message;
 	}

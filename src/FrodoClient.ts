@@ -1,5 +1,5 @@
-import {Client, Collection, CommandInteraction, CommandInteractionOptionResolver, ButtonInteraction} from 'discord.js';
 import chalk from 'chalk';
+import {Client, Collection, CommandInteraction, CommandInteractionOptionResolver, ButtonInteraction} from 'discord.js';
 
 import {MessageHandler} from './utils/ErrorHandling/CommandHandler.js';
 import CommandRegister from './utils/CommandRegister.js';
@@ -34,27 +34,28 @@ export class FrodoClient extends Client {
 		this.connectToDiscord();
 	}
 
-	private registerCommands() {
+	private registerCommands() : FrodoClient {
 		this.debugLog('Making command register instance');
-
 		const commandArray = [];
 		this.commands.forEach((command) => {
 			commandArray.push(command.data);
 		});
 
 		this.commandRegister = new CommandRegister(commandArray, this);
+        return this;
 	}
 
 	private async connectToDiscord() {
-		this.debugLog('Attempting to login...');
+		this.debugLog('Attempting to login to discord...');
 		await this.login(process.env.TOKEN);
 		this.debugLog('Logged into Discord');
-		this.registerCommands();
-		this.registerEvents();
-		this.createButtonManager();
+		await this.registerCommands().registerEvents();
+        // Create button manager
+        this.debugLog('Creating button manager');
+		this.buttonManager = new ButtonManager(this);
 	}
 
-	private async registerEvents() {
+	private async registerEvents() : Promise<FrodoClient> {
 		this.debugLog('Registering events');
 		for (const event of Object.values(events)) {
 			this.debugLog(` -> Registering event ${event.name} (${event.identifier})`);
@@ -63,28 +64,27 @@ export class FrodoClient extends Client {
 
 		this.debugLog('Events registered');
 		this.finishDiscordLogin();
+        return this;
 	}
 
 	private finishDiscordLogin() {
 		this.debugLog('Finished logging into Discord');
-		if (this.commandRegister.processFinished) return this.completeFinishLogin();
+		if (this.commandRegister.processFinished) {
+            this.completeFinishLogin();
+            return;
+        }
 		this.commandRegister.setCompleteEvent(this.completeFinishLogin.bind(this));
 	}
 
 	private completeFinishLogin() {
-		this.debugLog(`Started in ${this.timeSinceStart / 1000} second${this.timeSinceStart / 1000 === 1 ? '' : 's'}`);
+		this.debugLog(`Started in ${this.timeSinceStart / 1000} second${this.timeSinceStart == 1000 ? '' : 's'}`);
 	}
 
-	private createButtonManager() {
-		this.debugLog('Creating button manager');
-		this.buttonManager = new ButtonManager(this);
-	}
-
-	public get timeSinceStart() {
+	public get timeSinceStart(): number {
 		return Date.now() - this.startTime;
 	}
 
-	public getServerCount(): number {
+	public get serverCount(): number {
 		return this.guilds.cache.size;
 	}
 

@@ -5,7 +5,7 @@ import {ContextMenuCommand} from '../core/ContextMenuCommand';
 import {contextMenuCommands} from './../contextMenu/contextMenuCommands.js';
 import {CommandRegisterData} from '../core/CommandRegister';
 import {Command} from '../core/Command';
-import {commandToJson} from './commandToJson.js';
+import {commandToJson} from './CommandToJson.js';
 import {FrodoClient} from '../FrodoClient';
 
 export default class CommandRegister {
@@ -13,15 +13,13 @@ export default class CommandRegister {
 
 	localCommands: CommandRegisterData[];
 	discordCommands: CommandRegisterData[];
-
 	localContextCommands: ContextMenuCommand[];
 	discordContextCommands: ContextMenuCommand[];
 
 	commandsNeedToUpdate: boolean;
-	typeMap: any;
-
+	typeMap: Object;
 	processFinished: boolean;
-	completeEvent: () => void;
+	onComplete: () => void;
 
 	constructor(localCommands: Command[], client: FrodoClient) {
 		this.client = client;
@@ -32,25 +30,22 @@ export default class CommandRegister {
 			USER: 2,
 			MESSAGE: 3,
 		};
-		this.completeEvent = () => {};
+		this.onComplete = () => {};
 
 		this.start(localCommands);
 	}
 
 	private async start(localCommands) {
-		this.localCommands = this.turnCommandsToArray(localCommands);
+		this.localCommands = this.commandsToArray(localCommands);
 		this.localContextCommands = await this.getLocalContextCommands();
-
 		const [discordCommands, discordContextCommands] = await this.getCurrentDiscordCommands();
-		this.discordCommands = this.turnCommandsToArray(discordCommands);
-		this.discordContextCommands = this.turnContextCommandsToArray(discordContextCommands);
-
+		this.discordCommands = this.commandsToArray(discordCommands);
+		this.discordContextCommands = this.contextCommandsToArray(discordContextCommands);
 		this.compareCommands();
 	}
 
-	private turnCommandsToArray(commands): CommandRegisterData[] {
+	private commandsToArray(commands): CommandRegisterData[] {
 		const newCommands: CommandRegisterData[] = [];
-
 		Object.keys(commands).forEach((commandId) => {
 			const command = commands[commandId];
 			const newIndex = newCommands.push({
@@ -64,7 +59,6 @@ export default class CommandRegister {
 		});
 
 		newCommands.sort((a, b) => a.name.localeCompare(b.name));
-
 		newCommands.forEach((command, index) => {
 			if (command.options) {
 				newCommands[index].options = command.options.map((value) => ({
@@ -82,14 +76,18 @@ export default class CommandRegister {
 	private async getCurrentDiscordCommands() {
 		const discordCommands = [];
 		const discordContextCommands = [];
-
-		const discordCommandsResponse = await (process.env.RUNTIME ? this.client.application.commands.fetch() : this.client.guilds.cache.get('839919274395303946').commands.fetch());
+		const discordCommandsResponse = await (process.env.RUNTIME ?
+            this.client.application.commands.fetch() :
+            this.client.guilds.cache.get('839919274395303946').commands.fetch()
+        );
 
 		discordCommandsResponse.forEach((command) => {
 			if (command.type === 'USER' || command.type === 'MESSAGE') {
 				command.type = this.typeMap[command.type];
 				discordContextCommands.push(command);
-			} else discordCommands.push(command);
+			} else {
+                discordCommands.push(command);
+            }
 		});
 
 		return [discordCommands, discordContextCommands];
@@ -110,14 +108,12 @@ export default class CommandRegister {
 		} else {
 			this.client.debugLog('Commands don\'t need to be updated');
 			this.processFinished = true;
-			this.completeEvent();
+			this.onComplete();
 		}
 	}
 
 	private async registerCommands() {
-		const rest = new REST({version: '9'})
-			.setToken(process.env.TOKEN);
-
+		const rest = new REST({version: '9'}).setToken(process.env.TOKEN);
 		const commandList = [];
 
 		for (const command of this.localCommands) {
@@ -132,12 +128,11 @@ export default class CommandRegister {
 
 		this.client.debugLog('Commands successfully registered');
 		this.processFinished = true;
-		this.completeEvent();
+		this.onComplete();
 	}
 
-	private turnContextCommandsToArray(commands) {
+	private contextCommandsToArray(commands) {
 		const newCommands: ContextMenuCommand[] = [];
-
 		Object.keys(commands).forEach((commandId) => {
 			const command = commands[commandId];
 			newCommands.push({
@@ -147,7 +142,6 @@ export default class CommandRegister {
 		});
 
 		newCommands.sort((a, b) => a.name.localeCompare(b.name));
-
 		return newCommands;
 	}
 
@@ -162,6 +156,6 @@ export default class CommandRegister {
 	}
 
 	public setCompleteEvent(event: () => void) {
-		this.completeEvent = event;
+		this.onComplete = event;
 	}
 }

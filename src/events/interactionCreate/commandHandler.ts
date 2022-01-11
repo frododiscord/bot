@@ -1,5 +1,5 @@
 import {handleError} from '../../utils/ErrorHandling/ErrorHandler.js';
-import {getMessage} from '../../utils/messageHandler.js';
+import {getMessage} from '../../utils/MessageHandler.js';
 import {FrodoClient, Interaction} from '../../FrodoClient';
 import CommandBase from '../../utils/CommandBase.js';
 import {Event} from '../../core/Event.js';

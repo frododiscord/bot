@@ -1,4 +1,4 @@
-import {EMBEDCOLOR} from './../../../utils/globalConstants.js';
+import {EMBEDCOLOR} from '../../../utils/GlobalConstants.js';
 import {MessageEmbed, User} from 'discord.js';
 import {CommandBaseOptions} from '../../../core/CommandBaseOptions.js';
 import CommandBase from '../../../utils/CommandBase.js';

@@ -2,8 +2,8 @@ import {CommandBaseOptions} from '../../../core/CommandBaseOptions';
 import CommandBase from '../../../utils/CommandBase.js';
 import {MessageEmbed, MessageEditOptions, Message} from 'discord.js';
 import {buttons, vowelsRarity, consonantsRarity} from './emojis.js';
-import wait from '../../../utils/wait.js';
-import getJson from '../../../utils/getJson.js';
+import wait from '../../../utils/Wait.js';
+import getJson from '../../../utils/GetJson.js';
 
 function getLetterRarity(rarity) {
 	const letters = [];

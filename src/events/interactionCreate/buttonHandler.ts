@@ -30,7 +30,7 @@ async function buttonHandler(this: FrodoClient, interaction: Interaction) {
 			components: [],
 		}).catch(() => {});
 	} else {
-		const buttonAction: ButtonValidate = command.validateButtonClick(buttonId, interaction);
+		const buttonAction: ButtonValidate = command.validateButtonClick(interaction);
 		if (buttonAction !== ButtonValidate.Message) {
 			await interaction.deferUpdate().catch(() => {});
 		}

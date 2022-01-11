@@ -1,5 +1,5 @@
 import {Joke} from './Joke.d';
-import getJson from '../../../utils/getJson.js';
+import getJson from '../../../utils/GetJson.js';
 import {FrodoClient, Message} from '../../../FrodoClient';
 
 export default async function(this: FrodoClient, message: Message) {

@@ -1,4 +1,4 @@
-import {EMBEDCOLOR} from './../../../utils/globalConstants.js';
+import {EMBEDCOLOR} from '../../../utils/GlobalConstants.js';
 import {MessageEmbed, User} from 'discord.js';
 import {FrodoClient, Interaction, Message, Options} from '../../../FrodoClient.js';
 

@@ -1,5 +1,5 @@
 import {ButtonValidate} from '../../../core/ButtonValidate.js';
-import {EMBEDCOLOR} from './../../../utils/globalConstants.js';
+import {EMBEDCOLOR} from '../../../utils/GlobalConstants.js';
 import {CommandBaseOptions} from '../../../core/CommandBaseOptions';
 import CommandBase from '../../../utils/CommandBase.js';
 import {ButtonInteraction, MessageEmbed, User} from 'discord.js';
@@ -169,7 +169,7 @@ export default class ConnectFour extends CommandBase {
 		this.currentPlayer = this.isPlayerOne ? this.players[0] : this.players[1];
 	}
 
-	public validateButtonClick(buttonId: string, interaction: ButtonInteraction): ButtonValidate {
+	public validateButtonClick(interaction: ButtonInteraction): ButtonValidate {
 		if (interaction.user === this.currentPlayer) return ButtonValidate.Run;
 		const playerIds = this.players.map((i) => i.id);
 		if (playerIds.includes(interaction.user.id)) return ButtonValidate.Ignore;

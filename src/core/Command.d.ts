@@ -1,4 +1,4 @@
-export type Handler = CommandBase | Function;
+export type Handler = CommandBase | Function<FrodoClient, Message>;
 
 export interface Command {
     name: string;
